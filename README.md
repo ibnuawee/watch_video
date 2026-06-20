@@ -129,14 +129,3 @@ Setelah menjalankan seeder, Anda dapat menggunakan akun di bawah ini untuk pengu
 > * **Sangat disarankan untuk menguji fitur upload video menggunakan file video berukuran sangat kecil (misal: di bawah 2MB)** agar unggahan berhasil tanpa perlu memodifikasi file `php.ini`.
 > * Jika mengunggah berkas melebihi kapasitas `php.ini` Anda, sistem kami telah dilengkapi dengan deteksi error HTTP 413 yang responsif untuk menginfokan error secara bersahabat di antarmuka web beserta langkah solusinya.
 
-> [!NOTE]
-> **2. Fitur Streaming Video Aman (Mendukung Skip/Seek Timeline)**:
-> * Untuk mencegah kebocoran direktori penyimpanan video, video diakses menggunakan endpoint terproteksi `/customer/videos/{id}/stream`.
-> * Endpoint ini menyajikan berkas menggunakan `Symfony\Component\HttpFoundation\BinaryFileResponse` yang secara native menangani header **HTTP 206 Partial Content (Range Request)**.
-> * Penanganan Range Request ini sangat penting agar pemutar video HTML5 bawaan browser (terutama **Chrome dan Safari**) dapat melakukan seeking (melompat maju/mundur di timeline video) dengan lancar.
-
-> [!NOTE]
-> **3. Penanganan Soft Deletes & Null Safety**:
-> * Hubungan antar data (seperti Customer dan Video) diimplementasikan menggunakan fitur *Soft Deletes* bawaan Laravel.
-> * Jika Admin menghapus video yang sedang dalam antrean pengajuan akses, halaman dashboard Customer akan tetap aman dari error `Attempt to read property on null` berkat filter query `whereHas('video')` dan pemanfaatan null-safe operator (`?->`) di file Blade.
-
