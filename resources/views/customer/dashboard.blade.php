@@ -104,14 +104,14 @@
                     <div class="space-y-4">
                         <div class="flex items-center space-x-3">
                             <div class="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center border border-slate-100 flex-shrink-0">
-                                @if ($lastRequest->video->thumbnail_path)
-                                    <img src="{{ asset('storage/' . $lastRequest->video->thumbnail_path) }}" alt="{{ $lastRequest->video->title }}" class="w-full h-full object-cover rounded-xl">
+                                @if ($lastRequest->video?->thumbnail_path)
+                                    <img src="{{ asset('storage/' . $lastRequest->video->thumbnail_path) }}" alt="{{ $lastRequest->video?->title }}" class="w-full h-full object-cover rounded-xl">
                                 @else
                                     <svg class="w-6 h-6 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
                                 @endif
                             </div>
                             <div class="overflow-hidden">
-                                <h3 class="font-bold text-slate-800 text-sm truncate">{{ $lastRequest->video->title }}</h3>
+                                <h3 class="font-bold text-slate-800 text-sm truncate">{{ $lastRequest->video?->title ?? 'Video Telah Dihapus' }}</h3>
                                 <p class="text-xs text-slate-400 mt-0.5">Dibuat {{ $lastRequest->created_at->diffForHumans() }}</p>
                             </div>
                         </div>

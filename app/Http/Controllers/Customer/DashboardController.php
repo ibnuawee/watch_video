@@ -40,6 +40,7 @@ class DashboardController extends Controller
         
         $lastRequest = VideoAccessRequest::with('video')
             ->where('customer_id', $customerId)
+            ->whereHas('video')
             ->latest()
             ->first();
 

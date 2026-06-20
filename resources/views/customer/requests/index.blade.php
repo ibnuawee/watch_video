@@ -43,15 +43,15 @@
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
                                     <div class="w-10 h-7 bg-slate-900 rounded overflow-hidden flex-shrink-0 flex items-center justify-center border border-slate-100">
-                                        @if ($req->video->thumbnail_path)
-                                            <img src="{{ asset('storage/' . $req->video->thumbnail_path) }}" alt="{{ $req->video->title }}" class="w-full h-full object-cover">
+                                        @if ($req->video?->thumbnail_path)
+                                            <img src="{{ asset('storage/' . $req->video->thumbnail_path) }}" alt="{{ $req->video?->title }}" class="w-full h-full object-cover">
                                         @else
                                             <svg class="w-4 h-4 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
                                         @endif
                                     </div>
                                     <div>
-                                        <div class="font-semibold text-slate-800">{{ $req->video->title ?? 'N/A' }}</div>
-                                        <div class="text-[10px] text-slate-400">{{ $req->video->category->name ?? 'N/A' }}</div>
+                                        <div class="font-semibold text-slate-800">{{ $req->video?->title ?? 'Video Telah Dihapus' }}</div>
+                                        <div class="text-[10px] text-slate-400">{{ $req->video?->category?->name ?? 'N/A' }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -80,14 +80,16 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-right">
-                                @if ($req->isActive())
+                                @if ($req->isActive() && $req->video)
                                     <a href="{{ route('customer.videos.watch', $req->video_id) }}" class="inline-flex items-center px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors text-xs font-semibold shadow-sm">
                                         Tonton
                                     </a>
-                                @else
+                                @elseif ($req->video)
                                     <a href="{{ route('customer.videos.show', $req->video_id) }}" class="inline-flex items-center px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg transition-colors text-xs font-medium">
                                         Detail
                                     </a>
+                                @else
+                                    <span class="text-xs text-slate-400 font-medium">Tidak Tersedia</span>
                                 @endif
                             </td>
                         </tr>
