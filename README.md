@@ -121,7 +121,7 @@ Setelah menjalankan seeder, Anda dapat menggunakan akun di bawah ini untuk pengu
 
 ---
 
-## 💡 Catatan Penting untuk Penguji
+## 💡 Catatan
 
 > [!TIP]
 > **1. Ukuran Berkas Video Pengujian (PHP Upload Limits)**:
