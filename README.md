@@ -121,10 +121,11 @@ Setelah menjalankan seeder, Anda dapat menggunakan akun di bawah ini untuk pengu
 
 ---
 
-## 💡 Catatan Penting untuk Penguji
+## 💡 Catatan
 
 > [!TIP]
 > **1. Ukuran Berkas Video Pengujian (PHP Upload Limits)**:
 > Secara default, konfigurasi batas maksimal unggahan berkas PHP (`upload_max_filesize` dan `post_max_size`) pada mesin lokal penguji sering kali dibatasi ke `2M` atau `8M`.
 > * **Sangat disarankan untuk menguji fitur upload video menggunakan file video berukuran sangat kecil (misal: di bawah 2MB)** agar unggahan berhasil tanpa perlu memodifikasi file `php.ini`.
 > * Jika mengunggah berkas melebihi kapasitas `php.ini` Anda, sistem kami telah dilengkapi dengan deteksi error HTTP 413 yang responsif untuk menginfokan error secara bersahabat di antarmuka web beserta langkah solusinya.
+
