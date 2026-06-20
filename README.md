@@ -86,10 +86,18 @@ Ikuti langkah-langkah berikut untuk menjalankan project ini secara lokal:
    ```bash
    php artisan storage:link
    ```
-9. **Jalankan Vite (Assets Bundler)**:
-   ```bash
-   npm run dev
-   ```
+9. **Kompilasi Aset (Vite Asset Bundler)**:
+   Terdapat dua opsi untuk memuat aset CSS/JS (Tailwind):
+   * **Opsi A: Mode Kompilasi Permanen (Sangat Direkomendasikan)**
+     Kompilasi seluruh aset ke dalam folder `public/build` secara permanen. Setelah langkah ini dijalankan, penguji tidak perlu menjalankan server Vite di background.
+     ```bash
+     npm run build
+     ```
+   * **Opsi B: Mode Development (Hot-Reloading)**
+     Jalankan server Vite di background jika ingin menguji dengan hot-reloading:
+     ```bash
+     npm run dev
+     ```
 10. **Jalankan server lokal Laravel**:
     ```bash
     php artisan serve
@@ -113,10 +121,22 @@ Setelah menjalankan seeder, Anda dapat menggunakan akun di bawah ini untuk pengu
 
 ---
 
-## 💡 Catatan untuk Penguji
+## 💡 Catatan Penting untuk Penguji
+
 > [!TIP]
-> **Ukuran Berkas Video Pengujian**:
-> Karena konfigurasi batas maksimal upload default PHP (`upload_max_filesize`) di komputer penguji biasanya diatur sangat kecil (default `2M` atau `10M`), **sangat disarankan untuk melakukan pengujian upload dengan file video berukuran kecil (di bawah 2MB)**.
->
-> Hal ini dilakukan agar penguji tidak perlu repot-repot mengubah konfigurasi `php.ini` lokal mereka secara manual hanya untuk melihat fungsionalitas dan jalannya progress bar unggahan.
+> **1. Ukuran Berkas Video Pengujian (PHP Upload Limits)**:
+> Secara default, konfigurasi batas maksimal unggahan berkas PHP (`upload_max_filesize` dan `post_max_size`) pada mesin lokal penguji sering kali dibatasi ke `2M` atau `8M`.
+> * **Sangat disarankan untuk menguji fitur upload video menggunakan file video berukuran sangat kecil (misal: di bawah 2MB)** agar unggahan berhasil tanpa perlu memodifikasi file `php.ini`.
+> * Jika mengunggah berkas melebihi kapasitas `php.ini` Anda, sistem kami telah dilengkapi dengan deteksi error HTTP 413 yang responsif untuk menginfokan error secara bersahabat di antarmuka web beserta langkah solusinya.
+
+> [!NOTE]
+> **2. Fitur Streaming Video Aman (Mendukung Skip/Seek Timeline)**:
+> * Untuk mencegah kebocoran direktori penyimpanan video, video diakses menggunakan endpoint terproteksi `/customer/videos/{id}/stream`.
+> * Endpoint ini menyajikan berkas menggunakan `Symfony\Component\HttpFoundation\BinaryFileResponse` yang secara native menangani header **HTTP 206 Partial Content (Range Request)**.
+> * Penanganan Range Request ini sangat penting agar pemutar video HTML5 bawaan browser (terutama **Chrome dan Safari**) dapat melakukan seeking (melompat maju/mundur di timeline video) dengan lancar.
+
+> [!NOTE]
+> **3. Penanganan Soft Deletes & Null Safety**:
+> * Hubungan antar data (seperti Customer dan Video) diimplementasikan menggunakan fitur *Soft Deletes* bawaan Laravel.
+> * Jika Admin menghapus video yang sedang dalam antrean pengajuan akses, halaman dashboard Customer akan tetap aman dari error `Attempt to read property on null` berkat filter query `whereHas('video')` dan pemanfaatan null-safe operator (`?->`) di file Blade.
 
